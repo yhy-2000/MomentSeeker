@@ -22,7 +22,7 @@ Our dataset is under the CC-BY-NC-SA-4.0 license.
 
 We do not own the copyright of any raw video files. Currently, we provide video access to researchers under the condition of acknowledging the above license. For the video data used, we respect and acknowledge any copyrights of the video authors. Therefore, for the movies, TV series, documentaries, and cartoons used in the dataset, we have reduced the resolution, clipped the length, adjusted dimensions, etc. of the original videos to minimize the impact on the rights of the original works. 
 
-If the original authors of the related works still believe that the videos should be removed, please contact MomentSeekerbenchmark@gmail.com or directly raise an issue.
+If the original authors of the related works still believe that the videos should be removed, please contact hyyuan@ruc.edu.cn or directly raise an issue.
 
 
 ## Introduction
