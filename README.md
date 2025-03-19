@@ -1,28 +1,3 @@
----
-license: cc-by-nc-sa-4.0
-extra_gated_prompt: >-
-  You acknowledge and understand that: This dataset is provided solely for
-  academic research purposes. It is not intended for commercial use or any other
-  non-research activities. All copyrights, trademarks, and other intellectual
-  property rights related to the videos in the dataset remain the exclusive
-  property of their respective owners. 
-   You assume full responsibility for any additional use or dissemination of this dataset and for any consequences that may arise from such actions. You are also aware that the copyright holders of the original videos retain the right to request the removal of their videos from the dataset. 
-   Furthermore, it is your responsibility to respect these conditions and to use the dataset ethically and in compliance with all applicable laws and regulations. Any violation of these terms may result in the immediate termination of your access to the dataset.
-extra_gated_fields:
-  Institution: text
-  Name: text
-  Country: country
-  I want to use this dataset for:
-    type: select
-    options:
-    - Research
-  I agree to use this dataset solely for research purposes: checkbox
-  I will not use this dataset in any way that infringes upon the rights of the copyright holders of the original videos, and strictly prohibit its use for any commercial purposes: checkbox
-task_categories:
-- question-answering
-language:
-- en
----
 <h1 align="center">MomentSeeker: A Comprehensive Benchmark and A Strong Baseline For Moment Retrieval Within Long Videos</h1>
 <p align="center">
     <a href="https://arxiv.org/abs/2502.12558">
