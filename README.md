@@ -13,6 +13,7 @@ This repo contains the annotation data for the paper "[MomentSeeker: A Comprehen
 
 
 ## 🔔 News:
+- 🥳 2025/03/25: We have released the evaluation code of MomentSeeker. 🔥
 - 🥳 2025/03/07: We have released the MomentSeeker [Benchmark](https://huggingface.co/datasets/avery00/MomentSeeker) and [Paper](https://arxiv.org/abs/2502.12558)! 🔥
 
 ## License
@@ -66,6 +67,8 @@ If the original authors of the related works still believe that the videos shoul
 
 The JSON file provides candidate videos for each question. The candidates can be ranked, and metrics such as Recall@1 and MAP@5 can be computed accordingly.
 
+
+We evaluate the video models (LanguageBind and InternVideo2) using an input of uniformly sampled 8 frames, while COVR follows its default setting of 15 frames. For image models, we use the temporally middle frame as the video input. Additionally, we provide the evaluation code as a reference. To reproduce our results, users should follow the respective original repositories to set up a conda environment, download the model weights, and then run our code.
 
 
 ## Hosting and Maintenance
