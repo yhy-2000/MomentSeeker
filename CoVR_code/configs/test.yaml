@@ -1,0 +1,28 @@
+hydra:
+  run:
+    dir: outputs/test/${model.modelname}/${model.ckpt.name}/${run_name}
+  job: # automatically go to the job folder (needed for hydra > 1.2 with new behavior)
+    chdir: true
+
+# Global configurations shared between different modules
+run_name: base
+
+seed: 1234
+logger_level: INFO
+
+# Composing nested config with default
+defaults:
+  - _self_
+  - data: cirr
+  - test: webvid-covr
+  - machine: server
+  - trainer: gpu
+  - model: blip-large
+  - model/ckpt: webvid-covr
+  - model/loss: hn_nce # not used
+  - model/loss_terms: si_ti # not used
+  - trainer/logger: none
+
+  - experiment: null
+
+paths: ${machine.paths}

@@ -1,0 +1,1 @@
+python test.py test=msrvtt model=blip-large model/ckpt=/share/liangzy/CoVR/webvid-covr.ckpt data=msrvtt
