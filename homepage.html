@@ -84,10 +84,16 @@
     <header>
         <h1>MomentSeeker: A Benchmark for Long-Video Moment Retrieval</h1>
         <div class="authors">
-            [Your Name], [Co-author 1], [Co-author 2], [Co-author 3]
+            Huaying Yuan<sup>†</sup>, Nijian<sup>†</sup>, Zheng Liu, Yueze Wang, Junjie Zhou, Zhengyang Liang, 
+            Bo Zhao, Zhao Cao, Zhicheng Dou, Ji-Rong Wen
+        </div>
+        <div class="note">
+            <sup>†</sup>Equal contribution
         </div>
         <a href="https://github.com/yhy-2000/MomentSeeker" class="github-btn">View on GitHub</a>
+        <a href="https://arxiv.org/abs/2502.12558" class="github-btn">Paper</a>
     </header>
+    
 
     <section class="abstract">
         <h2>Abstract</h2>
@@ -100,6 +106,23 @@
         <p>
             On top of MomentSeeker, we conduct comprehensive experiments for both generation-based approaches (directly using MLLMs) and retrieval-based approaches (leveraging video retrievers). Our results reveal the significant challenges in long-video moment retrieval in terms of accuracy and efficiency, despite improvements from the latest long-video MLLMs and task-specific fine-tuning.
         </p>
+    </section>
+
+
+    <section>
+        <h2>Benchmark Overview</h2>
+        <div class="figure">
+            <img src="images/benchmark_overview.png" alt="Benchmark Overview">
+            <p class="caption">Overview and illustrative examples of moment retrieval tasks in MomentSeeker benchmark. We use bold arrows to indicate the sources of qI and qV in the multi-modal query, and thin arrows to indicate the ground truth video segment(s).</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Dataset Statistics</h2>
+        <div class="figure">
+            <img src="images/dataset_statistics.png" alt="Dataset Statistics">
+            <p class="caption">Dataset statistics. (a). Question type distribution, (b). Video duration distribution across samples, and (c) Answering time range length distribution across samples. MomentSeeker has a full spectrum of video length and covers different core abilities of temporal search task.</p>
+        </div>
     </section>
 
     <section>
@@ -260,24 +283,8 @@
         <p class="caption">Results on the MomentSeeker benchmark. For generation methods, #Frames denotes the number of uniformly sampled input frames from the video; for retrieval methods, it indicates the number of frames per candidate clip used for visual embedding.</p>
     </section>
 
-    <section>
-        <h2>Benchmark Overview</h2>
-        <div class="figure">
-            <img src="images/benchmark_overview.png" alt="Benchmark Overview">
-            <p class="caption">Overview and illustrative examples of moment retrieval tasks in MomentSeeker benchmark. We use bold arrows to indicate the sources of qI and qV in the multi-modal query, and thin arrows to indicate the ground truth video segment(s).</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>Dataset Statistics</h2>
-        <div class="figure">
-            <img src="images/dataset_statistics.png" alt="Dataset Statistics">
-            <p class="caption">Dataset statistics. (a). Question type distribution, (b). Video duration distribution across samples, and (c) Answering time range length distribution across samples. MomentSeeker has a full spectrum of video length and covers different core abilities of temporal search task.</p>
-        </div>
-    </section>
-
     <footer>
-        <p>For more details, please visit our <a href="https://github.com/yhy-2000/MomentSeeker">GitHub repository</a>.</p>
+        <p>For more details, please contact hyyuan@ruc.edu.cn.</p>
     </footer>
 </body>
 </html>
