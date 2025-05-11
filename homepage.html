@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MomentSeeker: Benchmark for Long-Video Moment Retrieval</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+        .authors {
+            font-style: italic;
+            margin: 15px 0;
+        }
+        .abstract {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .figure img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+        .caption {
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .github-btn {
+            display: inline-block;
+            background-color: #24292e;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .github-btn:hover {
+            background-color: #2c3e50;
+        }
+        .highlight {
+            background-color: #e6f7ff;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MomentSeeker: A Benchmark for Long-Video Moment Retrieval</h1>
+        <div class="authors">
+            [Your Name], [Co-author 1], [Co-author 2], [Co-author 3]
+        </div>
+        <a href="https://github.com/yhy-2000/MomentSeeker" class="github-btn">View on GitHub</a>
+    </header>
+
+    <section class="abstract">
+        <h2>Abstract</h2>
+        <p>
+            Long video understanding (LVU) remains a significant challenge for today's multi-modal large language models (MLLMs), where accurate access to key moments within the long video is crucial for solving each LVU task correctly. However, existing benchmarks are either severely limited in terms of video length and task diversity, or they focus solely on the end-to-end LVU performance, making them inappropriate for evaluating whether key moments can be accurately accessed.
+        </p>
+        <p>
+            To address this challenge, we propose <span class="highlight">MomentSeeker</span>, a novel benchmark for long-video moment retrieval, distinguished by the following features. First, it is created based on long and diverse videos, averaging over 1200 seconds in duration and collected from various domains, e.g., movie, anomaly, egocentric, sports, etc. Second, it covers a variety of real-world tasks, such as action recognition, object localization, and causal reasoning. Third, it incorporates rich forms of queries, including text-only queries, image-conditioned queries, and video-conditioned queries.
+        </p>
+        <p>
+            On top of MomentSeeker, we conduct comprehensive experiments for both generation-based approaches (directly using MLLMs) and retrieval-based approaches (leveraging video retrievers). Our results reveal the significant challenges in long-video moment retrieval in terms of accuracy and efficiency, despite improvements from the latest long-video MLLMs and task-specific fine-tuning.
+        </p>
+    </section>
+
+    <section>
+        <h2>Dataset Comparison</h2>
+        <table>
+            <tr>
+                <th>Benchmark</th>
+                <th>Moment Retrieval?</th>
+                <th>Natural Question?</th>
+                <th>Q Modality</th>
+                <th>#Videos</th>
+                <th>#Queries</th>
+                <th>Avg Duration (s)</th>
+                <th>Domain</th>
+            </tr>
+            <tr>
+                <td>TVR</td>
+                <td>✓</td>
+                <td>✗</td>
+                <td>T</td>
+                <td>1090</td>
+                <td>5450</td>
+                <td>76.2</td>
+                <td>TV show</td>
+            </tr>
+            <tr>
+                <td>CharadesSTA</td>
+                <td>✓</td>
+                <td>✗</td>
+                <td>T</td>
+                <td>1334</td>
+                <td>3720</td>
+                <td>30.6</td>
+                <td>Activity</td>
+            </tr>
+            <tr>
+                <td>THUMOS14</td>
+                <td>✓</td>
+                <td>✗</td>
+                <td>T</td>
+                <td>216</td>
+                <td>3457</td>
+                <td>186.4</td>
+                <td>Action</td>
+            </tr>
+            <tr>
+                <td>QVHighlights</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>T</td>
+                <td>476</td>
+                <td>1542</td>
+                <td>150</td>
+                <td>Vlog/News</td>
+            </tr>
+            <tr>
+                <td>VideoMME</td>
+                <td>✗</td>
+                <td>✓</td>
+                <td>T</td>
+                <td>900</td>
+                <td>2700</td>
+                <td>1021.3</td>
+                <td>Youtube</td>
+            </tr>
+            <tr>
+                <td>MLVU</td>
+                <td>✗</td>
+                <td>✓</td>
+                <td>T</td>
+                <td>349</td>
+                <td>502</td>
+                <td>933.6</td>
+                <td>Open</td>
+            </tr>
+            <tr style="font-weight: bold; background-color: #f0f8ff;">
+                <td>MomentSeeker</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>T/T+I/T+V</td>
+                <td>268</td>
+                <td>1800</td>
+                <td>1201.9</td>
+                <td>Open</td>
+            </tr>
+        </table>
+        <p class="caption">The MomentSeeker dataset and popular benchmarks for moment retrieval. We report statistics for the test set of each benchmark.</p>
+    </section>
+
+    <section>
+        <h2>Results</h2>
+        <table>
+            <tr>
+                <th rowspan="2">Method</th>
+                <th rowspan="2">#Size</th>
+                <th rowspan="2">#Frames</th>
+                <th colspan="4">R1</th>
+                <th colspan="4">mAP@5</th>
+            </tr>
+            <tr>
+                <th>TMR</th>
+                <th>IMR</th>
+                <th>VMR</th>
+                <th>avg</th>
+                <th>TMR</th>
+                <th>IMR</th>
+                <th>VMR</th>
+                <th>avg</th>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+                <td colspan="11"><em>Generation-based Methods</em></td>
+            </tr>
+            <tr>
+                <td>GPT-4o-0513</td>
+                <td>-</td>
+                <td>384</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <!-- More rows for generation methods -->
+            <tr style="background-color: #f5f5f5;">
+                <td colspan="11"><em>Retrieval-based Methods</em></td>
+            </tr>
+            <tr>
+                <td>MagicLens</td>
+                <td>428M</td>
+                <td>1</td>
+                <td>5.7</td>
+                <td>3.2</td>
+                <td>2.8</td>
+                <td>3.9</td>
+                <td>-14.0</td>
+                <td>6.6</td>
+                <td>6.2</td>
+                <td>-0.4</td>
+            </tr>
+            <!-- More rows for retrieval methods -->
+            <tr style="font-weight: bold; background-color: #e6f7ff;">
+                <td>MR-Embedder</td>
+                <td>8B</td>
+                <td>8</td>
+                <td>31.3</td>
+                <td>15.0</td>
+                <td>15.8</td>
+                <td>20.7</td>
+                <td>49.6</td>
+                <td>25.7</td>
+                <td>24.4</td>
+                <td>33.2</td>
+            </tr>
+        </table>
+        <p class="caption">Results on the MomentSeeker benchmark. For generation methods, #Frames denotes the number of uniformly sampled input frames from the video; for retrieval methods, it indicates the number of frames per candidate clip used for visual embedding.</p>
+    </section>
+
+    <section>
+        <h2>Benchmark Overview</h2>
+        <div class="figure">
+            <img src="images/benchmark_overview.png" alt="Benchmark Overview">
+            <p class="caption">Overview and illustrative examples of moment retrieval tasks in MomentSeeker benchmark. We use bold arrows to indicate the sources of qI and qV in the multi-modal query, and thin arrows to indicate the ground truth video segment(s).</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Dataset Statistics</h2>
+        <div class="figure">
+            <img src="images/dataset_statistics.png" alt="Dataset Statistics">
+            <p class="caption">Dataset statistics. (a). Question type distribution, (b). Video duration distribution across samples, and (c) Answering time range length distribution across samples. MomentSeeker has a full spectrum of video length and covers different core abilities of temporal search task.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>For more details, please visit our <a href="https://github.com/yhy-2000/MomentSeeker">GitHub repository</a>.</p>
+    </footer>
+</body>
+</html>
