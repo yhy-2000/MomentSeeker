@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,6 +79,9 @@
             padding: 2px 4px;
             border-radius: 3px;
         }
+        .cellgreen {
+            background-color: #e6f7ff;
+        }
     </style>
 </head>
 <body>
@@ -93,198 +97,426 @@
         <a href="https://github.com/yhy-2000/MomentSeeker" class="github-btn">View on GitHub</a>
         <a href="https://arxiv.org/abs/2502.12558" class="github-btn">Paper</a>
     </header>
-    
 
     <section class="abstract">
         <h2>Abstract</h2>
         <p>
-            Long video understanding (LVU) remains a significant challenge for today's multi-modal large language models (MLLMs), where accurate access to key moments within the long video is crucial for solving each LVU task correctly. However, existing benchmarks are either severely limited in terms of video length and task diversity, or they focus solely on the end-to-end LVU performance, making them inappropriate for evaluating whether key moments can be accurately accessed.
-        </p>
-        <p>
-            To address this challenge, we propose <span class="highlight">MomentSeeker</span>, a novel benchmark for long-video moment retrieval, distinguished by the following features. First, it is created based on long and diverse videos, averaging over 1200 seconds in duration and collected from various domains, e.g., movie, anomaly, egocentric, sports, etc. Second, it covers a variety of real-world tasks, such as action recognition, object localization, and causal reasoning. Third, it incorporates rich forms of queries, including text-only queries, image-conditioned queries, and video-conditioned queries.
-        </p>
-        <p>
-            On top of MomentSeeker, we conduct comprehensive experiments for both generation-based approaches (directly using MLLMs) and retrieval-based approaches (leveraging video retrievers). Our results reveal the significant challenges in long-video moment retrieval in terms of accuracy and efficiency, despite improvements from the latest long-video MLLMs and task-specific fine-tuning.
-        </p>
+            Accurately locating key moments within long videos is crucial for solving long video understanding (LVU) tasks. However, existing benchmarks are either severely limited in terms of video length and task diversity, or they focus solely on the end-to-end LVU performance, making them inappropriate for 
+            evaluating whether key moments can be accurately accessed. To address this challenge, we propose <strong>MomentSeeker</strong>, a novel benchmark for long-video moment retrieval (LMVR), distinguished by the following features. First, it is created based on long and diverse videos, averaging over 1200 seconds in duration and collected from various domains, e.g., movie, anomaly, egocentric, and sports. Second, it covers a variety of real-world scenarios in three levels: global-level, event-level, object-level, covering common tasks like action recognition, object localization, and causal reasoning, etc. Third, it incorporates rich forms of queries, including text-only queries, image-conditioned queries, and video-conditioned queries. On top of MomentSeeker, we conduct comprehensive experiments for both generation-based approaches (directly using MLLMs) and retrieval-based approaches (leveraging video retrievers). Our results reveal the significant challenges in long-video moment retrieval in terms of accuracy and efficiency, despite improvements from the latest long-video MLLMs and task-specific fine-tuning.         
+        </p>        
     </section>
 
 
     <section>
         <h2>Benchmark Overview</h2>
         <div class="figure">
-            <img src="images/benchmark_overview.png" alt="Benchmark Overview">
-            <p class="caption">Overview and illustrative examples of moment retrieval tasks in MomentSeeker benchmark. We use bold arrows to indicate the sources of qI and qV in the multi-modal query, and thin arrows to indicate the ground truth video segment(s).</p>
+            <img src="images/benchmark_demo.png" alt="Benchmark Overview">
+            <p class="caption">
+                Examples of each task. Dashed boxes show sources of query image <span style="font-family: monospace;">$q_I$</span> and video <span style="font-family: monospace;">$q_V$</span>; solid boxes mark ground truth moments. Red circles highlight key queried information.
+            </p>            
         </div>
     </section>
+
 
     <section>
         <h2>Dataset Statistics</h2>
         <div class="figure">
             <img src="images/dataset_statistics.png" alt="Dataset Statistics">
-            <p class="caption">Dataset statistics. (a). Question type distribution, (b). Video duration distribution across samples, and (c) Answering time range length distribution across samples. MomentSeeker has a full spectrum of video length and covers different core abilities of temporal search task.</p>
+            <p class="caption">Dataset statistics. (a). Question type distribution, (b). Video duration distribution across samples, and (c) Answering time range length distribution across samples. MomentSeeker has a full spectrum of video length and covers different core abilities of moment retrieval task.</p>
         </div>
     </section>
 
     <section>
         <h2>Dataset Comparison</h2>
-        <table>
-            <tr>
+        <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse; width: 100%; font-size: small;">
+            <caption style="caption-side: top; font-weight: bold; margin-bottom: 0.5em;">
+              Comparison of popular moment retrieval benchmarks, LVU benchmarks (with test set statistics) and our proposed MomentSeeker benchmark.
+            </caption>
+            <thead>
+              <tr>
                 <th>Benchmark</th>
-                <th>Moment Retrieval?</th>
-                <th>Natural Question?</th>
-                <th>Q Modality</th>
-                <th>#Videos</th>
-                <th>#Queries</th>
-                <th>Avg Duration (s)</th>
-                <th>Domain</th>
-            </tr>
-            <tr>
-                <td>TVR</td>
-                <td>✓</td>
-                <td>✗</td>
-                <td>T</td>
-                <td>1090</td>
-                <td>5450</td>
-                <td>76.2</td>
-                <td>TV show</td>
-            </tr>
-            <tr>
-                <td>CharadesSTA</td>
-                <td>✓</td>
-                <td>✗</td>
-                <td>T</td>
-                <td>1334</td>
-                <td>3720</td>
-                <td>30.6</td>
-                <td>Activity</td>
-            </tr>
-            <tr>
-                <td>THUMOS14</td>
-                <td>✓</td>
-                <td>✗</td>
-                <td>T</td>
-                <td>216</td>
-                <td>3457</td>
-                <td>186.4</td>
-                <td>Action</td>
-            </tr>
-            <tr>
-                <td>QVHighlights</td>
-                <td>✓</td>
-                <td>✓</td>
-                <td>T</td>
-                <td>476</td>
-                <td>1542</td>
-                <td>150</td>
-                <td>Vlog/News</td>
-            </tr>
-            <tr>
-                <td>VideoMME</td>
-                <td>✗</td>
-                <td>✓</td>
-                <td>T</td>
-                <td>900</td>
-                <td>2700</td>
-                <td>1021.3</td>
-                <td>Youtube</td>
-            </tr>
-            <tr>
-                <td>MLVU</td>
-                <td>✗</td>
-                <td>✓</td>
-                <td>T</td>
-                <td>349</td>
-                <td>502</td>
-                <td>933.6</td>
-                <td>Open</td>
-            </tr>
-            <tr style="font-weight: bold; background-color: #f0f8ff;">
-                <td>MomentSeeker</td>
-                <td>✓</td>
-                <td>✓</td>
-                <td>T/T+I/T+V</td>
-                <td>268</td>
-                <td>1800</td>
-                <td>1201.9</td>
-                <td>Open</td>
-            </tr>
+                <th><i>Label</i></th>
+                <th><i>Moment-targeted?</i></th>
+                <th><i>Task-oriented?</i></th>
+                <th><i>Duration (s)</i></th>
+                <th><i>#Videos</i></th>
+                <th><i>#Queries</i></th>
+                <th><i>Domain</i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="8"><b><i>Moment retrieval benchmarks</i></b></td></tr>
+              <tr>
+                <td style="padding-left: 1em;">TVR<sup>[1]</sup></td><td><i>Auto</i></td><td>✔</td><td>✘</td><td>76.2</td><td>1090</td><td>5450</td><td>TV show</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">CharadesSTA<sup>[2]</sup></td><td><i>Human</i></td><td>✔</td><td>✘</td><td>30.6</td><td>1334</td><td>3720</td><td>Activity</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">THUMOS14<sup>[3]</sup></td><td><i>Human</i></td><td>✔</td><td>✘</td><td>186.4</td><td>216</td><td>3457</td><td>Action</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">QVHighlights<sup>[4]</sup></td><td><i>Human</i></td><td>✔</td><td>✔</td><td>150</td><td>476</td><td>1542</td><td>Vlog/News</td>
+              </tr>
+          
+              <tr><td colspan="8"><b><i>LVU benchmarks</i></b></td></tr>
+              <tr>
+                <td style="padding-left: 1em;">VideoMME<sup>[5]</sup></td><td><i>Human</i></td><td>✘</td><td>✔</td><td>1021.3</td><td>900</td><td>2700</td><td>YouTube</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">MLVU<sup>[6]</sup></td><td><i>Human</i></td><td>✘</td><td>✔</td><td>905.8</td><td>349</td><td>502</td><td>Open</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">LongVideoBench<sup>[7]</sup></td><td><i>Human</i></td><td>✘</td><td>✔</td><td>574.9</td><td>753</td><td>1337</td><td>Open</td>
+              </tr>
+              <tr>
+                <td style="padding-left: 1em;">V-NIAH<sup>[8]</sup></td><td><i>Auto</i></td><td>✘</td><td>✔</td><td>-</td><td>-</td><td>5</td><td>Open</td>
+              </tr>
+          
+              <tr>
+                <td><b>MomentSeeker</b></td><td><i>Human</i></td><td>✔</td><td>✔</td><td>1201.9</td><td>268</td><td>1800</td><td>Open</td>
+              </tr>
+            </tbody>
         </table>
+          
         <p class="caption">The MomentSeeker dataset and popular benchmarks for moment retrieval. We report statistics for the test set of each benchmark.</p>
     </section>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MomentSeeker: Benchmark for Long-Video Moment Retrieval</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            header {
+                text-align: center;
+                margin-bottom: 40px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 20px;
+            }
+            h1 {
+                color: #2c3e50;
+            }
+            h2 {
+                color: #3498db;
+                margin-top: 30px;
+            }
+            .authors {
+                font-style: italic;
+                margin: 15px 0;
+            }
+            .abstract {
+                background-color: #f9f9f9;
+                padding: 20px;
+                border-radius: 5px;
+                margin-bottom: 30px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .figure {
+                text-align: center;
+                margin: 30px 0;
+            }
+            .figure img {
+                max-width: 100%;
+                border: 1px solid #ddd;
+            }
+            .caption {
+                font-style: italic;
+                margin-top: 10px;
+            }
+            .github-btn {
+                display: inline-block;
+                background-color: #24292e;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 5px;
+                text-decoration: none;
+                margin-top: 20px;
+            }
+            .github-btn:hover {
+                background-color: #2c3e50;
+            }
+            .highlight {
+                background-color: #e6f7ff;
+                padding: 2px 4px;
+                border-radius: 3px;
+            }
+            /* Gradient of green shades based on value ranges */
+            .cellgreen-0-5 { background-color: #e6f7e6; }  /* Very light green */
+            .cellgreen-5-10 { background-color: #c2e8c2; } /* Light green */
+            .cellgreen-10-15 { background-color: #9ed99e; } /* Medium light green */
+            .cellgreen-15-20 { background-color: #7aca7a; } /* Medium green */
+            .cellgreen-20-25 { background-color: #56bb56; } /* Medium dark green */
+            .cellgreen-25-30 { background-color: #32ac32; } /* Dark green */
+            .cellgreen-30-up { background-color: #1a8a1a; } /* Very dark green */
+        </style>
+    </head>
+    <body>
+        <!-- [Previous HTML content remains the same until the Results table] -->
+    
+        <section>
+            <h2>Leaderboard</h2>
+            <section>
+                <p class="caption">Main results across different meta-tasks. #Frames indicates the number of input frames for generation-based methods and per-clip frames for retrieval-based methods. † denotes tested on a random subset due to high cost.</p>
 
-    <section>
-        <h2>Results</h2>
-        <table>
-            <tr>
-                <th rowspan="2">Method</th>
-                <th rowspan="2">#Size</th>
-                <th rowspan="2">#Frames</th>
-                <th colspan="4">R1</th>
-                <th colspan="4">mAP@5</th>
-            </tr>
-            <tr>
-                <th>TMR</th>
-                <th>IMR</th>
-                <th>VMR</th>
-                <th>avg</th>
-                <th>TMR</th>
-                <th>IMR</th>
-                <th>VMR</th>
-                <th>avg</th>
-            </tr>
-            <tr style="background-color: #f5f5f5;">
-                <td colspan="11"><em>Generation-based Methods</em></td>
-            </tr>
-            <tr>
-                <td>GPT-4o-0513</td>
-                <td>-</td>
-                <td>384</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <!-- More rows for generation methods -->
-            <tr style="background-color: #f5f5f5;">
-                <td colspan="11"><em>Retrieval-based Methods</em></td>
-            </tr>
-            <tr>
-                <td>MagicLens</td>
-                <td>428M</td>
-                <td>1</td>
-                <td>5.7</td>
-                <td>3.2</td>
-                <td>2.8</td>
-                <td>3.9</td>
-                <td>-14.0</td>
-                <td>6.6</td>
-                <td>6.2</td>
-                <td>-0.4</td>
-            </tr>
-            <!-- More rows for retrieval methods -->
-            <tr style="font-weight: bold; background-color: #e6f7ff;">
-                <td>MR-Embedder</td>
-                <td>8B</td>
-                <td>8</td>
-                <td>31.3</td>
-                <td>15.0</td>
-                <td>15.8</td>
-                <td>20.7</td>
-                <td>49.6</td>
-                <td>25.7</td>
-                <td>24.4</td>
-                <td>33.2</td>
-            </tr>
-        </table>
-        <p class="caption">Results on the MomentSeeker benchmark. For generation methods, #Frames denotes the number of uniformly sampled input frames from the video; for retrieval methods, it indicates the number of frames per candidate clip used for visual embedding.</p>
-    </section>
+                <h2>Retrieval-based Methods</h2>
+                <table>
+                    <tr>
+                        <th rowspan="2">Method</th>
+                        <th rowspan="2">#Size</th>
+                        <th rowspan="2">#Frames</th>
+                        <th colspan="2">Global-level</th>
+                        <th colspan="2">Event-level</th>
+                        <th colspan="2">Object-level</th>
+                        <th colspan="2">Overall</th>
+                    </tr>
+                    <tr>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                    </tr>
 
-    <footer>
-        <p>For more details, please contact hyyuan@ruc.edu.cn.</p>
-    </footer>
+                    <tr>
+                        <td>InternVideo2</td>
+                        <td>1B</td>
+                        <td>8</td>
+                        <td class="cellgreen-15-20">16.8</td>
+                        <td class="cellgreen-20-25">24.5</td>
+                        <td class="cellgreen-20-25">23.5</td>
+                        <td class="cellgreen-25-30">30.9</td>
+                        <td class="cellgreen-15-20">17.0</td>
+                        <td class="cellgreen-20-25">22.7</td>
+                        <td class="cellgreen-15-20">19.7</td>
+                        <td class="cellgreen-20-25">26.6</td>
+                    </tr>
+                    <tr>
+                        <td>LanguageBind</td>
+                        <td>428M</td>
+                        <td>8</td>
+                        <td class="cellgreen-15-20">16.2</td>
+                        <td class="cellgreen-20-25">24.6</td>
+                        <td class="cellgreen-20-25">21.4</td>
+                        <td class="cellgreen-25-30">29.4</td>
+                        <td class="cellgreen-15-20">15.5</td>
+                        <td class="cellgreen-20-25">21.0</td>
+                        <td class="cellgreen-15-20">18.2</td>
+                        <td class="cellgreen-20-25">25.4</td>
+                    </tr>
+                    <tr>
+                        <td>E5V</td>
+                        <td>8.4B</td>
+                        <td>1</td>
+                        <td class="cellgreen-10-15">13.1</td>
+                        <td class="cellgreen-15-20">19.5</td>
+                        <td class="cellgreen-10-15">14.5</td>
+                        <td class="cellgreen-20-25">20.7</td>
+                        <td class="cellgreen-10-15">14.9</td>
+                        <td class="cellgreen-15-20">19.8</td>
+                        <td class="cellgreen-10-15">14.3</td>
+                        <td class="cellgreen-20-25">20.1</td>
+                    </tr>
+                    <tr>
+                        <td>MM-Ret</td>
+                        <td>148M</td>
+                        <td>1</td>
+                        <td class="cellgreen-10-15">14.2</td>
+                        <td class="cellgreen-15-20">17.9</td>
+                        <td class="cellgreen-10-15">13.6</td>
+                        <td class="cellgreen-15-20">19.4</td>
+                        <td class="cellgreen-5-10">9.7</td>
+                        <td class="cellgreen-15-20">15.4</td>
+                        <td class="cellgreen-10-15">12.4</td>
+                        <td class="cellgreen-15-20">17.7</td>
+                    </tr>
+                    <tr>
+                        <td>CoVR</td>
+                        <td>588M</td>
+                        <td>15</td>
+                        <td class="cellgreen-5-10">9.8</td>
+                        <td class="cellgreen-15-20">15.4</td>
+                        <td class="cellgreen-10-15">13.7</td>
+                        <td class="cellgreen-15-20">19.9</td>
+                        <td class="cellgreen-10-15">14.4</td>
+                        <td class="cellgreen-15-20">18.9</td>
+                        <td class="cellgreen-10-15">13.0</td>
+                        <td class="cellgreen-15-20">18.5</td>
+                    </tr>
+                    <tr>
+                        <td>UniIR</td>
+                        <td>428M</td>
+                        <td>1</td>
+                        <td class="cellgreen-10-15">14.9</td>
+                        <td class="cellgreen-15-20">19.4</td>
+                        <td class="cellgreen-10-15">11.5</td>
+                        <td class="cellgreen-15-20">17.9</td>
+                        <td class="cellgreen-5-10">8.2</td>
+                        <td class="cellgreen-10-15">13.9</td>
+                        <td class="cellgreen-10-15">11.2</td>
+                        <td class="cellgreen-15-20">16.9</td>
+                    </tr>
+                </table>
+
+                                
+                <h2>Generation-based Methods</h2>
+                <table>
+                    <tr>
+                        <th rowspan="2">Method</th>
+                        <th rowspan="2">#Size</th>
+                        <th rowspan="2">#Frames</th>
+                        <th colspan="2">Global-level</th>
+                        <th colspan="2">Event-level</th>
+                        <th colspan="2">Object-level</th>
+                        <th colspan="2">Overall</th>
+                    </tr>
+                    <tr>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                        <th>R@1</th>
+                        <th>mAP@5</th>
+                    </tr>
+                    <tr>
+                        <td>Qwen2.5VL</td>
+                        <td>72B</td>
+                        <td>768</td>
+                        <td class="cellgreen-10-15">13.6</td>
+                        <td class="cellgreen-10-15">13.0</td>
+                        <td class="cellgreen-20-25">21.9</td>
+                        <td class="cellgreen-20-25">21.8</td>
+                        <td class="cellgreen-10-15">12.2</td>
+                        <td class="cellgreen-10-15">11.9</td>
+                        <td class="cellgreen-15-20">17.2</td>
+                        <td class="cellgreen-15-20">16.9</td>
+                    </tr>
+                    <tr>
+                        <td>GPT-4o(2024-11-20)†</td>
+                        <td>-</td>
+                        <td>128</td>
+                        <td class="cellgreen-10-15">12.5</td>
+                        <td class="cellgreen-10-15">12.5</td>
+                        <td class="cellgreen-20-25">20.8</td>
+                        <td class="cellgreen-20-25">20.8</td>
+                        <td class="cellgreen-10-15">12.1</td>
+                        <td class="cellgreen-10-15">12.5</td>
+                        <td class="cellgreen-15-20">16.4</td>
+                        <td class="cellgreen-15-20">16.5</td>
+                    </tr>
+                    <tr>
+                        <td>InternVL3</td>
+                        <td>38B</td>
+                        <td>96</td>
+                        <td class="cellgreen-10-15">11.1</td>
+                        <td class="cellgreen-10-15">10.5</td>
+                        <td class="cellgreen-20-25">20.8</td>
+                        <td class="cellgreen-20-25">21.2</td>
+                        <td class="cellgreen-10-15">11.3</td>
+                        <td class="cellgreen-10-15">11.5</td>
+                        <td class="cellgreen-15-20">15.8</td>
+                        <td class="cellgreen-15-20">16.0</td>
+                    </tr>
+                    <tr>
+                        <td>Qwen2.5VL</td>
+                        <td>7B</td>
+                        <td>768</td>
+                        <td class="cellgreen-0-5">4.6</td>
+                        <td class="cellgreen-0-5">3.8</td>
+                        <td class="cellgreen-10-15">12.0</td>
+                        <td class="cellgreen-10-15">12.2</td>
+                        <td class="cellgreen-0-5">4.3</td>
+                        <td class="cellgreen-0-5">4.2</td>
+                        <td class="cellgreen-5-10">8.1</td>
+                        <td class="cellgreen-5-10">8.0</td>
+                    </tr>
+                    <tr>
+                        <td>LLaVA-Video</td>
+                        <td>72B</td>
+                        <td>96</td>
+                        <td class="cellgreen-0-5">3.6</td>
+                        <td class="cellgreen-0-5">3.5</td>
+                        <td class="cellgreen-5-10">8.6</td>
+                        <td class="cellgreen-5-10">9.8</td>
+                        <td class="cellgreen-0-5">4.6</td>
+                        <td class="cellgreen-5-10">5.6</td>
+                        <td class="cellgreen-5-10">6.3</td>
+                        <td class="cellgreen-5-10">7.2</td>
+                    </tr>
+                    <tr>
+                        <td>TimeChat</td>
+                        <td>7B</td>
+                        <td>96</td>
+                        <td class="cellgreen-0-5">2.6</td>
+                        <td class="cellgreen-0-5">2.6</td>
+                        <td class="cellgreen-5-10">6.7</td>
+                        <td class="cellgreen-5-10">6.7</td>
+                        <td class="cellgreen-0-5">4.4</td>
+                        <td class="cellgreen-0-5">4.4</td>
+                        <td class="cellgreen-5-10">5.9</td>
+                        <td class="cellgreen-5-10">5.9</td>
+                    </tr>
+                    <tr>
+                        <td>Lita</td>
+                        <td>13B</td>
+                        <td>100</td>
+                        <td class="cellgreen-0-5">2.6</td>
+                        <td class="cellgreen-0-5">2.6</td>
+                        <td class="cellgreen-5-10">7.2</td>
+                        <td class="cellgreen-5-10">7.2</td>
+                        <td class="cellgreen-0-5">1.8</td>
+                        <td class="cellgreen-0-5">1.8</td>
+                        <td class="cellgreen-5-10">5.6</td>
+                        <td class="cellgreen-5-10">5.6</td>
+                    </tr>
+                    <tr>
+                        <td>InternVL3</td>
+                        <td>8B</td>
+                        <td>96</td>
+                        <td class="cellgreen-0-5">3.9</td>
+                        <td class="cellgreen-0-5">3.5</td>
+                        <td class="cellgreen-5-10">7.8</td>
+                        <td class="cellgreen-5-10">8.5</td>
+                        <td class="cellgreen-0-5">4.1</td>
+                        <td class="cellgreen-0-5">4.1</td>
+                        <td class="cellgreen-5-10">5.9</td>
+                        <td class="cellgreen-5-10">6.1</td>
+                    </tr>
+                </table>
+
+            </section>
+        </section>
+    
+        <footer>
+            <p>For more details, please contact hyyuan@ruc.edu.cn.</p>
+        </footer>
+    </body>
+    </html>
+
 </body>
 </html>
