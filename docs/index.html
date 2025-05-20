@@ -106,6 +106,88 @@
         </p>        
     </section>
 
+    <section>
+        <h2>Qualitative Results</h2>
+        <div class="carousel-container">
+          <button class="carousel-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+          <div class="carousel-wrapper">
+            <img class="carousel-slide" src="images/sample1.png" alt="Qualitative Result 1" style="display: block;">
+            <img class="carousel-slide" src="images/sample2.png" alt="Qualitative Result 2" style="display: none;">
+            <img class="carousel-slide" src="images/sample3.png" alt="Qualitative Result 3" style="display: none;">
+          </div>
+          <button class="carousel-btn next" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+      </section>
+      
+      <style>
+        .carousel-container {
+          position: relative;
+          width: 100%;
+          max-width: 100%;
+          margin: 2em 0;
+        }
+      
+        .carousel-wrapper {
+          max-width: 700px;  /* 与正文宽度一致 */
+          margin: 0 auto;
+          position: relative;
+        }
+      
+        .carousel-slide {
+          width: 100%;
+          max-height: 350px;
+          object-fit: contain;
+          display: none;
+        }
+      
+        .carousel-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: rgba(0,0,0,0.5);
+          color: white;
+          border: none;
+          padding: 10px;
+          cursor: pointer;
+          font-size: 20px;
+          border-radius: 4px;
+          z-index: 2;
+        }
+      
+        .carousel-btn.prev {
+          left: 10px;
+        }
+      
+        .carousel-btn.next {
+          right: 10px;
+        }
+      </style>
+      
+      <script>
+        let currentSlide = 0;
+        const slides = document.getElementsByClassName("carousel-slide");
+      
+        function showSlide(index) {
+          for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+          }
+          slides[index].style.display = "block";
+        }
+      
+        function changeSlide(direction) {
+          currentSlide = (currentSlide + direction + slides.length) % slides.length;
+          showSlide(currentSlide);
+        }
+      
+        // 初始化展示第一张图
+        showSlide(currentSlide);
+      
+        // 自动播放功能
+        setInterval(() => {
+          changeSlide(1);
+        }, 3000); // 每 3 秒切换一次
+      </script>
+      
 
     <section>
         <h2>Benchmark Overview</h2>
