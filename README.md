@@ -39,23 +39,6 @@ We present MomentSeeker, a comprehensive benchmark to evaluate retrieval models'
 ![Illustrative overview of our MomentSeeker dataset.](https://cdn-uploads.huggingface.co/production/uploads/66d916a7b86f0d569aa19b60/ff-9bFKlN466wElhiA4Wi.png)
 
 
-
-
-## 🏆 Mini Leaderboard
-| Rank | Method                                    | Backbone         | # Params | CA      | MS      | IMS     | VMS     | Overall |
-|------|------------------------------------------|-----------------|---------|--------|--------|--------|--------|--------|
-| 1    | **V-Embedder**                            | InternVideo2-Chat| 8B       | <u>42.2</u> | **20.4** | **15.0** | **15.8** | **23.3** |
-| 2    | CoVR                                    | BLIP-Large       | 588M     | 25.8    | 17.4    | <u>12.3</u> | <u>12.3</u> | <u>17.1</u> |
-| 3    | InternVideo2                            | ViT              | 1B       | **44.6** | <u>18.2</u> | 4.8     | 0.0     | 16.9    |
-| 4    | MM-Ret                                  | CLIP-Base        | 149M     | 23.2    | 15.4    | 10.5    | 10.5    | 14.9    |
-| 5    | LanguageBind                            | CLIP-Large       | 428M     | 39.6    | 16.4    | 3.2     | 0.0     | 14.8    |
-| 6    | E5V                                     | LLaVA-1.6        | 8.4B     | 25.8    | 16.8    | 6.2     | 5.2     | 13.5    |
-| 7    | UniIR                                   | CLIP-Large       | 428M     | 25.0    | 15.2    | 6.4     | 0.0     | 10.9    |
-| 8    | MLLM2VEC                                | LLaVA-1.6        | 8.4B     | 6.4     | 6.2     | 3.0     | 3.0     | 4.7     |
-| 9    | MagicLens                               | CLIP-Large       | 428M     | 9.0     | 2.4     | 3.2     | 2.8     | 4.4     |
-
-
-
 ## License
 Our dataset is under the CC-BY-NC-SA-4.0 license.
 
